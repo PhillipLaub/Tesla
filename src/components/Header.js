@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
+import { selectCars } from "../features/car/carSlice";
+import { useSelector } from "react-redux";
 
 function Header() {
   const [burgerStatus, setBurgerStatus] = useState(false);
+  const cars = useSelector(selectCars);
+
+  console.log(cars);
 
   return (
     <Container>
@@ -12,10 +17,12 @@ function Header() {
         <img src="/images/logo.svg" alt="" />
       </a>
       <Menu>
-        <a href="#">Model S</a>
-        <a href="#">Model 3</a>
-        <a href="#">Model X</a>
-        <a href="#">Model Y</a>
+        {cars &&
+          cars.map((car, index) => (
+            <a href="#" key={index}>
+              {car}
+            </a>
+          ))}
       </Menu>
       <RightMenu>
         <a href="#">Shop</a>
@@ -26,6 +33,18 @@ function Header() {
         <CloseWrapper>
           <CustomClose onClick={() => setBurgerStatus(false)} />
         </CloseWrapper>
+
+        {cars &&
+          cars.map((car, index) => (
+            <a href="#" key={index}>
+              {
+                <li>
+                  <a href="#">{car}</a>
+                </li>
+              }
+            </a>
+          ))}
+
         <li>
           <a href="#">Existing Inventory</a>
         </li>
@@ -42,7 +61,22 @@ function Header() {
           <a href="#">Roadster</a>
         </li>
         <li>
+          <a href="#">Semi</a>
+        </li>
+        <li>
           <a href="#">Charging</a>
+        </li>
+        <li>
+          <a href="#">Powerwall</a>
+        </li>
+        <li>
+          <a href="#">Commercial Energy</a>
+        </li>
+        <li>
+          <a href="#">Utilities</a>
+        </li>
+        <li>
+          <a href="#">Test Drive</a>
         </li>
       </BurgerNav>
     </Container>
@@ -69,6 +103,7 @@ const Menu = styled.div`
   align-items: center;
   flex: 1;
   justify-content: center;
+  margin-left: 8%;
 
   a {
     font-weight: 600;
@@ -77,7 +112,7 @@ const Menu = styled.div`
     flex-wrap: no-wrap;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 796px) {
     display: none;
   }
 `;
@@ -115,6 +150,7 @@ const BurgerNav = styled.div`
   li {
     padding: 15px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
   }
 
   a {
